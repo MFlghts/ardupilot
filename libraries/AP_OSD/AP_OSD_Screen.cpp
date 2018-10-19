@@ -756,8 +756,8 @@ void AP_OSD_Screen::draw_blh_rpm(uint8_t x, uint8_t y)
             return;
         }
 
-        int esc_rpm = td.rpm * 0.014;   // multipler to get 14-pole motor RPM x 1000.
-        backend->write(x, y, false, "%c%3d", SYM_RPM, esc_rpm);
+        float esc_rpm = td.rpm * 0.014;   // multipler to get 14-pole motor RPM x 1000.
+        backend->write(x, y, false, "%c%3.1f", SYM_RPM, esc_rpm);
     }
 }
 
