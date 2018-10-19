@@ -300,6 +300,9 @@ AP_OSD_Screen::AP_OSD_Screen()
 #define SYM_FLY       0x9C
 #define SYM_EFF       0xF2
 #define SYM_AH        0xF3
+#define SYM_INT       0xF4
+#define SYM_EXT       0xF5
+#define SYM_ESC       0xF6
 
 void AP_OSD_Screen::set_backend(AP_OSD_Backend *_backend)
 {
@@ -739,7 +742,7 @@ void AP_OSD_Screen::draw_blh_temp(uint8_t x, uint8_t y)
 
         // AP_BLHeli & blh = AP_BLHeli::AP_BLHeli();
         uint8_t esc_temp = td.temperature;
-        backend->write(x, y, false, "%3d%c", (int)u_scale(TEMPERATURE, esc_temp), u_icon(TEMPERATURE));
+        backend->write(x, y, false, "%c%3d%c", SYM_ESC, (int)u_scale(TEMPERATURE, esc_temp), u_icon(TEMPERATURE));
     }
 }
 
@@ -834,7 +837,7 @@ void AP_OSD_Screen::draw_temp(uint8_t x, uint8_t y)
 {
     AP_Baro &barometer = AP::baro();
     float tmp = barometer.get_temperature();
-    backend->write(x, y, false, "%3d%c", (int)u_scale(TEMPERATURE, tmp), u_icon(TEMPERATURE));
+    backend->write(x, y, false, "%c%3d%c", SYM_INT, (int)u_scale(TEMPERATURE, tmp), u_icon(TEMPERATURE));
 }
 
 
@@ -899,7 +902,7 @@ void AP_OSD_Screen::draw_eff(uint8_t x, uint8_t y)
     Vector2f v = ahrs.groundspeed_vector();
     float speed = u_scale(SPEED,v.length());
     if (speed > 2.0){
-        backend->write(x, y, false, "%c%3d%c", SYM_EFF,int(1000*battery.current_amps()/speed),SYM_MAH);
+        backend->write(x, y, false, "%c%4d%c", SYM_EFF,int(1000*battery.current_amps()/speed),SYM_MAH);
     } else {
         backend->write(x, y, false, "%c---%c", SYM_EFF,SYM_MAH);
     }
@@ -929,7 +932,7 @@ void AP_OSD_Screen::draw_btemp(uint8_t x, uint8_t y)
 {
     AP_Baro &barometer = AP::baro();
     float btmp = barometer.get_temperature(1);
-    backend->write(x, y, false, "%3d%c", (int)u_scale(TEMPERATURE, btmp), u_icon(TEMPERATURE));
+    backend->write(x, y, false, "%c%3d%c", SYM_EXT, (int)u_scale(TEMPERATURE, btmp), u_icon(TEMPERATURE));
 }
 
 void AP_OSD_Screen::draw_atemp(uint8_t x, uint8_t y)
