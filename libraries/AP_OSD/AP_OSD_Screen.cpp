@@ -753,8 +753,8 @@ void AP_OSD_Screen::draw_blh_rpm(uint8_t x, uint8_t y)
             return;
         }
 
-        int esc_rpm = td.rpm * 14;   // hard-wired assumption for now that motor has 14 poles, so multiply eRPM * 14 to get motor RPM.
-        backend->write(x, y, false, "%5d%c", esc_rpm, SYM_RPM);
+        int esc_rpm = td.rpm * 0.014;   // multipler to get 14-pole motor RPM x 1000.
+        backend->write(x, y, false, "%c%3d", SYM_RPM, esc_rpm);
     }
 }
 
